@@ -21,7 +21,10 @@ func ConnectDB() {
 		config.ConfigEnv("DATABASE_PORT"),
 		config.ConfigEnv("DATABASE_NAME"))
 
-	DB, err = gorm.Open(mysql.Open(dsn), &gorm.Config{
+	DB, err = gorm.Open(mysql.New(mysql.Config{
+		DSN:                      dsn,
+		DisableDatetimePrecision: true,
+	}), &gorm.Config{
 		PrepareStmt: false,
 	})
 	if err != nil {
